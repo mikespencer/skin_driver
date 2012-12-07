@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"> 
+	<title></title>
+	  
+  <script type="text/javascript">
+    var commercialNode = "politics";
+  </script>
+  <script src="http://js.washingtonpost.com/wp-srv/ad/generic_ad.js"></script>
+  <script src="http://js.washingtonpost.com/wp-srv/ad/wp.js"></script>
+</head>
+<body>
+
+  <div id="shell">
+    test content
+  </div>
+  
+  <div class="sl-content-wrapper">
+    test content
+  </div>
+  
+  <div id="page">
+    test content
+  </div>
+
+<!-- Ad Id: %eaid! -->
+
+  <script>
+    (function(w, d){
+    
+      'use strict';
+      
+      var max_count = 5;
+      
+      function loadScript(src){
+        var s = d.createElement('script'),
+          target = d.body || d.getElementsByTagName('head')[0] || false,
+          callback = arguments[1] || false;
+        if (target) {
+          s.type = 'text/' + (src.type || 'javascript');
+          s.src = src.src || src;
+          if (typeof callback === 'function') {
+            s.onreadystatechange = s.onload = function() {
+              var state = s.readyState;
+              if (!callback.done && (!state || /loaded|complete/.test(state))) {
+                callback.done = true;
+                callback();
+              }
+            };
+          }
+          target.appendChild(s);
+        }
+      }
+      
+      function exec(){
+        if(w.jQuery){
+          w.wpAd.skin = new w.wpAd.Skin({
+            click: {
+              'track': '',
+              'url': ''
+            },
+            css: {
+              body: {
+                'background': '#dedede url(Samsung_201211_skin_V7.png) no-repeat center top scroll',
+                'padding': '0',
+                'margin': '0'
+              },
+              wrapper: {
+                'border': '1px solid #ccc'
+              },
+              ct: {
+                'height': '30px'
+              }
+            },
+            ct_title: 'Click here for more information',
+            pixels: [
+              '%i'
+            ]
+          });
+        } else if(max_count--){
+          setTimeout(exec, 300);
+        }
+      }
+      
+      if(!w.jQuery){
+        loadScript('http://js.washingtonpost.com/wpost/js/combo?token=20121010232000&c=true&m=true&context=eidos&r=/jquery-1.7.1.js', function(){
+          loadScript('skin_driver.v2.js', exec);
+        });
+      } else {
+        loadScript('skin_driver.v2.js', exec);
+      }
+      
+    })(parent.window, parent.document);
+  </script>
+
+</body>
+</html>
