@@ -7,7 +7,9 @@
   var siteData = {
     washingtonpost: {
       wrappers: {
-        'standard': '#shell'
+        'standard': '#shell',
+        'jobs': '#wrapper',
+        'cityguide': '#wrapper'
       },
       pageCSS: {
         'padding': '0 11px',
@@ -37,10 +39,10 @@
   
     config = config || {};
     
-    var site = config.site && siteData[config.site] ? config.site : (function(dom){
-      if(dom){
+    var site = config.site && siteData[config.site] ? config.site : (function(domain){
+      if(domain){
         for(var key in siteData){
-          if(siteData.hasOwnProperty(key) && (new RegExp(key).test(dom))){
+          if(siteData.hasOwnProperty(key) && (new RegExp(key).test(domain))){
             return key;
           }
         }
@@ -65,32 +67,32 @@
       },
       pixels: [],
       ct_title: '',
-      $wrapper: null,
+      wrapper_selector: null,
       site: site
     }, config);
     
     this.$body = $('body');
     this.$head = $('head');
     this.cssString = '';
-    this.$wrapper = this.getWrapper(this.config.$wrapper);
     
-    if(this.$wrapper && this.$wrapper.length){
-      this.exec();
-    }
+    this.$wrapper = this.getWrapper(this.config.wrapper_selector) || 
+      this.getWrapper(siteData[site].wrappers[where.split('/')[0]]) ||
+      this.getWrapper(siteData[site].wrappers.standard);
+    
+    this.exec();
     
     return this;
   }
 
-  Skin.prototype.getWrapper = function(){
-    if(arguments[0]){
-      var el = $(arguments[0]);
+  Skin.prototype.getWrapper = function(selector){
+    if(selector){
+      var el = $(selector);
       if(el.length){
-        this.wrapperSelector = arguments[0];
+        this.config.wrapper_selector = selector;
         return el;
       }
     }
-    this.wrapperSelector = siteData[this.config.site].wrappers[where] || siteData[this.config.site].wrappers.standard;
-    return $(this.wrapperSelector);
+    return false;
   };
   
   Skin.prototype.exec = function(){
@@ -118,8 +120,8 @@
   };
   
   Skin.prototype.configWrapperCSS = function(){
-    if(this.$wrapper.length){
-      this.cssString += this.stringifyCSS('html body.skinned ' + this.wrapperSelector, this.config.css.wrapper);
+    if(this.config.wrapper_selector){
+      this.cssString += this.stringifyCSS('html body.skinned ' + this.config.wrapper_selector, this.config.css.wrapper);
     }
     return this;
   };
