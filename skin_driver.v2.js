@@ -35,6 +35,9 @@
     }
   };
   
+  //for dfp preview window:
+  where = where || 'standard';
+  
   function Skin(config){
   
     config = config || {};
